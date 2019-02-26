@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        ListView listView = (ListView) findViewById(R.id.listagrupos);
+        listView.setBackgroundColor(Color.WHITE);
         try {
             arrayGrupos();
         } catch (IOException e) {
@@ -66,8 +68,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        ListView listView = (ListView) findViewById(R.id.listagrupos);
-        listView.setBackgroundColor(Color.WHITE);
+
     }
 
     @Override
