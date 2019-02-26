@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class GlobalDBHelper {
 
-    private static String URL_GLOBAL_DB = "http://10.21.80.234/webService/";
+    private static String URL_GLOBAL_DB = "http://10.21.80.175/webService/";
 
     public int insertIntoUsuarios(Context context, String email, String senha) throws IOException {
         if (!checkNetworkConnection(context)) {

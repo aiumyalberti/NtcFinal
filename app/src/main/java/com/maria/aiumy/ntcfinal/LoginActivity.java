@@ -29,14 +29,13 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
         String emailLogado = sp.getString("emailLogado", null);
         String email = null;
-        try {
-            email = getUserEmail();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        clicarparaLogin();
+//        try {
+//            verificarUsuario(email);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -63,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void clicarparaLogin (View v){
         Intent intent = new Intent(this, MainActivity.class);
+
         startActivity(intent);
     }
     private void verificarUsuario(String emailDigitado, String senhaDigitada) throws IOException, JSONException {
