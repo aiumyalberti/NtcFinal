@@ -1,6 +1,8 @@
 package com.maria.aiumy.ntcfinal;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -89,8 +91,13 @@ public class NewgroupsActivity extends AppCompatActivity
             Intent intent = new Intent(this, CriargrupoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_exit) {
-            finish();
-            System.exit(0);
+            SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.remove("emailLogado");
+            editor.apply();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

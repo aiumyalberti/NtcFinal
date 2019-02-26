@@ -89,24 +89,36 @@ public class GrupoActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_main) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_profile) {
+            Intent intent = new Intent(this, PerfilActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_notification) {
+            Intent intent = new Intent(this, PostagemActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_groups) {
+            Intent intent = new Intent(this, MygroupsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_create) {
+            Intent intent = new Intent(this, CriargrupoActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_exit) {
+            SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.remove("emailLogado");
+            editor.apply();
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void arrayPosts() throws IOException, JSONException //
     {
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
