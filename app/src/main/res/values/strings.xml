@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">NtcFinal</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_postagem">PostagemActivity</string>
+    <string name="title_activity_criargrupo">CriargrupoActivity</string>
+    <string name="title_activity_perfil">PerfilActivity</string>
+    <string name="title_activity_newgroups">NewgroupsActivity</string>
+    <string name="title_activity_mygroups">MygroupsActivity</string>
+    <string-array name="temas">
+        <item>comedia</item>
+        <item>escola</item>
+        <item>filmes/series</item>
+        <item>livros</item>
+        <item>musica</item>
+        <item>sentimentos</item>
+    </string-array>
+    <string name="title_activity_grupo">GrupoActivity</string>
+    <string name="title_activity_comentario">ComentarioActivity</string>
+    <string name="title_activity_tela_post">TelaPostActivity</string>
+    <string name="title_activity_teste">testeActivity</string>
+</resources>
