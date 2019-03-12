@@ -20,7 +20,6 @@ import bdcontroler.GlobalDBHelper;
 
 public class LoginActivity extends AppCompatActivity {
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
-    boolean encontrado = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,45 +27,27 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
         String emailLogado = sp.getString("emailLogado", null);
-        String email = null;
-//        try {
-//            verificarUsuario(email);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        if (emailLogado != null) {
+            clicarparaLogin();
+        }
     }
-
 
     public void gerarAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);
-        DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        };
-        builder.setPositiveButton("Ok", btnOk);
+        builder.setPositiveButton("Ok", null);
         builder.create().show();
     }
-
 
     public void clicarparaCadastrar (View v){
         Intent intent = new Intent(this, CadastroActivity.class);
         startActivity(intent);
     }
 
-    public void clicarparaLogin (View v){
-        Intent intent = new Intent(this, MainActivity.class);
-
-        startActivity(intent);
-    }
     private void verificarUsuario(String emailDigitado, String senhaDigitada) throws IOException, JSONException {
         JSONArray jsons = globalDBHelper.selectAllFromUsuarios(getApplicationContext());
+        boolean encontrado = false;
 
         for (int i = 0; i < jsons.length(); i++) {
             JSONObject userObject = (JSONObject) jsons.get(i);
@@ -75,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
 
             if (emailUser.toUpperCase().equals(emailDigitado) && senhaUser.equals(senhaDigitada)) {
                 encontrado = true;
-//                isPasswordValid(true);
                 break;
             }
         }
@@ -93,16 +73,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public String getUserEmail() throws IOException, JSONException {
-        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
-        String emailName = sp.getString("emailLogado",null);
-        return emailName;
-    }
-
     private void clicarparaLogin() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
     public void onClick (View v)throws JSONException, IOException {
         EditText emailText = (EditText) findViewById(R.id.loginEmail);
         String email = emailText.getText().toString();
