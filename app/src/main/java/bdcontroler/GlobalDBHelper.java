@@ -60,14 +60,31 @@ public class GlobalDBHelper {
         }
     }
 
+    public int insertIntoGrupoHasUsuario(Context context, String usuario_email, String grupo_cod) throws IOException {
+        if (!checkNetworkConnection(context)) {
+            return 0;
+        }
+        checkThreadPolicy();
+        String values = "usuario_email="+usuario_email+"&"+"grupo_cod="+grupo_cod;
+        URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_grupo_has_usuario.php?"+values);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String response = bufferedReader.readLine();
+        if (response.equals("false")) {
+            Toast.makeText(context, "Erro no BD Global!", Toast.LENGTH_LONG).show();
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     public int insertGrupo(Context context, String nome, String senha, String tema_tema, String usuario_email) throws IOException {
         if (!checkNetworkConnection(context)) {
             return 0;
         }
         checkThreadPolicy();
         String values = "nome="+nome+"&tema_tema="+tema_tema+"&senha"+senha+"&usuario_email="+ usuario_email;
-        Log.d("HUEHUE", URL_GLOBAL_DB + "ws_insert/ws_insert_grupo.php?"+values);
-        URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_grupo.php?"+values);
+        URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_grupos.php?"+values);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String response = bufferedReader.readLine();

@@ -121,6 +121,9 @@ public class CriargrupoActivity extends AppCompatActivity
         } else if (id == R.id.nav_create) {
             Intent intent = new Intent(this, CriargrupoActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_new) {
+            Intent intent = new Intent(this, NewgroupsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_exit) {
             SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
@@ -146,9 +149,12 @@ public class CriargrupoActivity extends AppCompatActivity
         MediaPlayer som_r2d2 = MediaPlayer.create(this,R.raw.r2d2);
         som_r2d2.start();
 
-        String usuario_email = "matheus.henrique@gmail.com";
-        int deuCerto = globalDBHelper.insertGrupo(getApplicationContext(), nome, senha, tema_tema, usuario_email);
-        if (deuCerto == 1) {
+
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        String emailUser = sp.getString("emailLogado",null);
+
+        int deuCerto = globalDBHelper.insertGrupo(getApplicationContext(), nome, senha, tema_tema, emailUser);
+        if (deuCerto == 0) {
             gerarAlertDialog("Grupo criado!", "Grupo criado com sucesso!");
         } else {
             gerarAlertDialog("Erro ao criar grupo", "Ocorreu um erro ao criar o grupo, por favor tente novamente :)");

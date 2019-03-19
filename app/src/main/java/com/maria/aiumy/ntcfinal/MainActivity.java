@@ -122,10 +122,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, MygroupsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_create) {
-            Intent intent = new Intent(this, NewgroupsActivity.class);
+            Intent intent = new Intent(this, CriargrupoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_new) {
-            Intent intent = new Intent(this, CriargrupoActivity.class);
+            Intent intent = new Intent(this, NewgroupsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_exit) {
             SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
@@ -153,20 +153,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-   /* public void listaGrupos() throws IOException, JSONException {
-        globalDBHelper = new GlobalDBHelper();
-        JSONArray jsonGrupos= globalDBHelper.selectAllFromGrupos(getApplicationContext());
-        ArrayList<String> listGroups = new ArrayList<String>();
-
-        for (int i=0; i < jsonGrupos.length(); i++){
-            JSONObject GruposObject = jsonGrupos.getJSONObject(i);
-            String nomeGrupo= GruposObject.getString("nome");
-            listGroups.add(nomeGrupo);
-        }
-        ListView mostraGrupos = findViewById(R.id.listagrupos);
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listGroups);
-        mostraGrupos.setAdapter(adapter);
-    }*/
 
 
     public void arrayGrupos() throws IOException, JSONException //

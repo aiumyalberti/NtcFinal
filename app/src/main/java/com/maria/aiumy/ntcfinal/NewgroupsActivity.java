@@ -1,6 +1,8 @@
 package com.maria.aiumy.ntcfinal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,9 +17,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import bdcontroler.GlobalDBHelper;
 
 public class NewgroupsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener  {
+
+    private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
+    private ArrayList<String> listaNovos = new ArrayList<String>();
+    private ArrayList<String> listaCodigosGrupos = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +54,13 @@ public class NewgroupsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        try {
+            arrayNovos();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -90,6 +116,9 @@ public class NewgroupsActivity extends AppCompatActivity
         } else if (id == R.id.nav_create) {
             Intent intent = new Intent(this, CriargrupoActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_new) {
+            Intent intent = new Intent(this, NewgroupsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_exit) {
             SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
@@ -103,5 +132,54 @@ public class NewgroupsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void arrayNovos() throws IOException, JSONException //
+    {
+        JSONArray jsonNovos = globalDBHelper.selectAllFromGrupos(getApplicationContext());
+
+
+        for (int i = 0; i < jsonNovos.length(); i++) {
+            JSONObject grupoObject = jsonNovos.getJSONObject(i);
+            String nomeGrupo = grupoObject.getString("nome");
+            String codGrupo = grupoObject.getString("cod");
+            listaNovos.add(nomeGrupo);
+            listaCodigosGrupos.add(codGrupo);
+        }
+
+        ListView neoListView = (ListView) findViewById(R.id.list_new);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaNovos);
+        neoListView.setOnItemClickListener(this);
+        neoListView.setAdapter(adapter);
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //String nomeGrupo =  listaNovos.get(position);
+        String codGrupo = listaCodigosGrupos.get(position);
+        gerarAlertDialog("Entrar no grupo?", "Você deseja participar deste grupo?", codGrupo);
+
+    }
+
+    public void gerarAlertDialog(String title, String message, final String codGrupo) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(title);
+        builder.setMessage(message);
+        DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+                String emailUser = sp.getString("emailLogado",null);
+                try {
+                    globalDBHelper.insertIntoGrupoHasUsuario(getApplicationContext(), emailUser, codGrupo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        builder.setPositiveButton("Participar", btnOk);
+        builder.create().show();
     }
 }

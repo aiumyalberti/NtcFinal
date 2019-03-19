@@ -9,27 +9,32 @@
     tools:showIn="@layout/app_bar_newgroups"
     android:background="@drawable/fundo">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/novos_grupos_List"
-        android:layout_width="368dp"
-        android:layout_height="436dp"
+    <ListView
+        android:id="@+id/list_new"
+        android:layout_width="323dp"
+        android:layout_height="400dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:headerDividersEnabled="false"
+        android:text="fala galero"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.638"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.864" />
+        app:layout_constraintTop_toBottomOf="@+id/nvs_grupos"
+        app:layout_constraintVertical_bias="0.281"
+        tools:ignore="MissingConstraints" />
+
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="306dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/nvs_grupos"
+        android:layout_width="419dp"
+        android:layout_height="47dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -37,8 +42,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/background_light"
-        android:text="Novos grupos"
         android:gravity="center"
+        android:text="Novos grupos"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

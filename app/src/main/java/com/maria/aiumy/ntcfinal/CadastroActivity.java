@@ -58,10 +58,8 @@ public class CadastroActivity extends Activity {
         int deuCerto = globalDbHelper.insertIntoUsuarios(getApplicationContext(), email, senha);
         if (deuCerto == 1) {
             gerarAlertDialog("Cadastro gerado", "Cadastro efetivado com sucesso!");
-//            gerarNotificacao("Cadastro concluído!", "Seu cadastro foi efetuado com sucesso!");
         } else {
             gerarAlertDialog("Cadastro não deu certo!", "Cadastro não efetivado com sucesso!");
-//            gerarNotificacao("Cadastro não concluído!", "Seu cadastro não foi efetuado com sucesso!");
         }
     }
 
@@ -74,20 +72,6 @@ public class CadastroActivity extends Activity {
         }
     }
 
-//    public void gerarNotificacao(String titulo, String corpo) {
-//        createNotificationChannel();
-//
-//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "my_channel_id_01");
-//        //mBuilder.setSmallIcon(R.drawable.ic_notification);
-//        mBuilder.setAutoCancel(true);
-//        mBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//        mBuilder.setVibrate(new long[]{150, 300, 150, 600});
-//        mBuilder.setContentTitle(titulo);
-//        mBuilder.setContentText(corpo);
-//
-//        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        nm.notify(123456, mBuilder.build());
-//    }
 
     public void gerarAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
