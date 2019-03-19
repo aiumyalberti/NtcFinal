@@ -24,6 +24,11 @@
             android:id="@+id/nav_create"
             android:icon="@drawable/ic_menu_manage"
             android:title="Criar grupo" />
+        <item
+            android:id="@+id/nav_new"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Novos grupos" />
+
     </group>
 
     <item android:title="Communicate">

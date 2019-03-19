@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, MygroupsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_create) {
+            Intent intent = new Intent(this, NewgroupsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_new) {
             Intent intent = new Intent(this, CriargrupoActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_exit) {
