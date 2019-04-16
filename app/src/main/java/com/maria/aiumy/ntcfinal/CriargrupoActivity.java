@@ -143,18 +143,18 @@ public class CriargrupoActivity extends AppCompatActivity
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         String tema_tema = spinner.getSelectedItem().toString();
-
         EditText senhaEditText = (EditText) findViewById(R.id.senhona);
         String senha = senhaEditText.getText().toString();
-        MediaPlayer som_r2d2 = MediaPlayer.create(this,R.raw.r2d2);
-        som_r2d2.start();
 
+        System.out.println(tema_tema);
 
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
         String emailUser = sp.getString("emailLogado",null);
 
+        System.out.println(emailUser);
+
         int deuCerto = globalDBHelper.insertGrupo(getApplicationContext(), nome, senha, tema_tema, emailUser);
-        if (deuCerto == 0) {
+        if (deuCerto == 1) {
             gerarAlertDialog("Grupo criado!", "Grupo criado com sucesso!");
         } else {
             gerarAlertDialog("Erro ao criar grupo", "Ocorreu um erro ao criar o grupo, por favor tente novamente :)");

@@ -182,4 +182,8 @@ public class NewgroupsActivity extends AppCompatActivity
         builder.setPositiveButton("Participar", btnOk);
         builder.create().show();
     }
+
+
+
+
 }

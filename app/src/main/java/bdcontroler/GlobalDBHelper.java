@@ -83,7 +83,13 @@ public class GlobalDBHelper {
             return 0;
         }
         checkThreadPolicy();
-        String values = "nome="+nome+"&tema_tema="+tema_tema+"&senha"+senha+"&usuario_email="+ usuario_email;
+        String values;
+        if (senha == "") {
+            values = "nome="+nome+"&tema="+tema_tema+"&email="+ usuario_email;
+        } else {
+            values = "nome="+nome+"&tema="+tema_tema+"&senha="+senha+"&email="+ usuario_email;
+        }
+
         URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_grupos.php?"+values);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));

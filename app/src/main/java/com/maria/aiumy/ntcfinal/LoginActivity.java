@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             String emailUser = userObject.getString("email");
             String senhaUser = userObject.getString("senha");
 
-            if (emailUser.toUpperCase().equals(emailDigitado) && senhaUser.equals(senhaDigitada)) {
+            if (emailUser.toUpperCase().equals(emailDigitado.toUpperCase()) && senhaUser.equals(senhaDigitada)) {
                 encontrado = true;
                 break;
             }
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailText.getText().toString();
         EditText senhaText = (EditText) findViewById(R.id.loginSenha);
         String senha = senhaText.getText().toString();
-        verificarUsuario(email.toUpperCase(), senha);
+        verificarUsuario(email, senha);
     }
 
 }
