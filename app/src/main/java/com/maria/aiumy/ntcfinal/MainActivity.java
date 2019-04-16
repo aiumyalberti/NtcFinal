@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     ArrayList<String> listaGrupos = new ArrayList<String>();
+    ArrayList<String> listaCodGrupos = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +166,9 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < jsonGrupos.length(); i++) {
             JSONObject grupoObject = jsonGrupos.getJSONObject(i);
             String nomeGrupo = grupoObject.getString("nome");
+            String codGrupo = grupoObject.getString("grupo_cod");
             listaGrupos.add(nomeGrupo);
+            listaCodGrupos.add(codGrupo);
         }
 
         ListView neoListView = (ListView) findViewById(R.id.listagrupos);
@@ -178,9 +181,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         String nomeGrupo =  listaGrupos.get(position);
+        String codGrupo = listaCodGrupos.get(position);
         Bundle b = new Bundle();
         Intent intent = new Intent(this, GrupoActivity.class);
-        b.putString("nomeGrupo", nomeGrupo.toString());
+        b.putString("nomeGrupo", nomeGrupo);
+        b.putString("codGrupo", codGrupo);
         intent.putExtras(b);
         startActivity(intent);
     }

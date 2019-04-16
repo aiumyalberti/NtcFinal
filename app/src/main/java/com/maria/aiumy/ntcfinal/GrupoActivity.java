@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +49,20 @@ public class GrupoActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Bundle bundle = getIntent().getExtras();
+        String nomeGrupo = bundle.getString("nomeGrupo");
+        TextView textViewGrupo = (TextView) findViewById(R.id.textGrupo);
+        textViewGrupo.setText(nomeGrupo);
+        String codGrupo = bundle.getString("codGrupo");
+
+        try {
+            arrayPosts(codGrupo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -137,15 +152,13 @@ public class GrupoActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void arrayPosts() throws IOException, JSONException //
+    public void arrayPosts(String codGrupo) throws IOException, JSONException //
     {
-        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
-        String emailUser = sp.getString("emailLogado",null);
-        JSONArray jsonGrupos = globalDBHelper.usuarioParticipa(getApplicationContext(), emailUser);
+        JSONArray jsonPosts = globalDBHelper.selectPostGrupo(getApplicationContext(), codGrupo);
 
 
-        for (int i = 0; i < jsonGrupos.length(); i++) {
-            JSONObject grupoObject = jsonGrupos.getJSONObject(i);
+        for (int i = 0; i < jsonPosts.length(); i++) {
+            JSONObject grupoObject = jsonPosts.getJSONObject(i);
             String conteudo = grupoObject.getString("conteudo");
             listaPosts.add(conteudo);
         }
