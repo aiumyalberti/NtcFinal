@@ -217,12 +217,12 @@ public class GlobalDBHelper {
         JSONArray jsonArray = new JSONArray(sb.toString().trim());
         return jsonArray;
     }
-    public JSONArray postGrupo(Context context, String cod) throws JSONException, IOException {
+    public JSONArray selectPostGrupo(Context context, String cod) throws JSONException, IOException {
         if (!checkNetworkConnection(context)) {
             return null;
         }
         checkThreadPolicy();
-        URL url = new URL(URL_GLOBAL_DB + "ws_read/ws_read_posts_grupo.php?cod='"+cod+"'");
+        URL url = new URL(URL_GLOBAL_DB + "ws_read/ws_read_posts_grupo.php?cod="+cod);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         StringBuilder sb = new StringBuilder();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));

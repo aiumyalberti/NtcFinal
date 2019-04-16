@@ -59,7 +59,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="192dp"
+        android:layout_marginBottom="360dp"
         android:background="@android:color/white"
         android:gravity="center"
         android:text="Escolha seu nick"
@@ -67,7 +67,6 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -106,9 +105,9 @@
         android:text="Postar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.902"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usuarioCriaNick"
-        app:layout_constraintVertical_bias="0.533" />
+        app:layout_constraintVertical_bias="0.797" />
 
 </android.support.constraint.ConstraintLayout>

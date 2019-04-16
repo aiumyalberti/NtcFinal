@@ -30,7 +30,6 @@ import bdcontroler.GlobalDBHelper;
 
 public class GrupoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
-
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     ArrayList<String> listaPosts = new ArrayList<String>();
     @Override
@@ -86,7 +85,6 @@ public class GrupoActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_main) {
@@ -104,6 +102,9 @@ public class GrupoActivity extends AppCompatActivity
         } else if (id == R.id.nav_create) {
             Intent intent = new Intent(this, CriargrupoActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_new) {
+            Intent intent = new Intent(this, NewgroupsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_exit) {
             SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
@@ -119,27 +120,7 @@ public class GrupoActivity extends AppCompatActivity
         return true;
     }
 
-    public void arrayPosts() throws IOException, JSONException //
-    {
-        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        String nomeClicado = bundle.getString("nomeGrupo");
-        JSONArray jsonPost = globalDBHelper.postGrupo(getApplicationContext(), nomeClicado);
 
-
-        for (int i = 0; i < jsonPost.length(); i++) {
-            JSONObject grupoObject = jsonPost.getJSONObject(i);
-            String nomeGrupo = grupoObject.getString("nome");
-            listaPosts.add(nomeGrupo);
-        }
-
-        ListView neoListView = (ListView) findViewById(R.id.listaposts);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaPosts);
-        neoListView.setOnItemClickListener(this);
-        neoListView.setAdapter(adapter);
-
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -150,6 +131,33 @@ public class GrupoActivity extends AppCompatActivity
         intent.putExtras(b);
         startActivity(intent);
     }
+
+    public void clicarparaNovoPost (View v){
+        Intent intent = new Intent(this, PostagemActivity.class);
+        startActivity(intent);
+    }
+
+    public void arrayPosts() throws IOException, JSONException //
+    {
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        String emailUser = sp.getString("emailLogado",null);
+        JSONArray jsonGrupos = globalDBHelper.usuarioParticipa(getApplicationContext(), emailUser);
+
+
+        for (int i = 0; i < jsonGrupos.length(); i++) {
+            JSONObject grupoObject = jsonGrupos.getJSONObject(i);
+            String conteudo = grupoObject.getString("conteudo");
+            listaPosts.add(conteudo);
+        }
+
+        ListView neoListView = (ListView) findViewById(R.id.listaposts);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaPosts);
+        neoListView.setOnItemClickListener(this);
+        neoListView.setAdapter(adapter);
+
+    }
+
+
 
 
 }
