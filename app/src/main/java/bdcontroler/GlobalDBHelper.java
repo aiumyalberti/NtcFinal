@@ -234,6 +234,21 @@ public class GlobalDBHelper {
         return jsonArray;
     }
 
+    public String selectSenhaGrupo(Context context, String codGrupo) throws JSONException, IOException {
+        if (!checkNetworkConnection(context)) {
+            return null;
+        }
+        checkThreadPolicy();
+        URL url = new URL(URL_GLOBAL_DB + "ws_read/ws_read_senha_grupo.php?cod="+codGrupo);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        StringBuilder sb = new StringBuilder();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String json;
+        while ((json = bufferedReader.readLine()) != null) {
+            sb.append(json + "\n");
+        }
+        return sb.toString().trim();
+    }
 
     private boolean checkNetworkConnection(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -248,4 +263,5 @@ public class GlobalDBHelper {
             StrictMode.setThreadPolicy(policy);
         }
     }
+
 }

@@ -19,7 +19,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -158,29 +161,56 @@ public class NewgroupsActivity extends AppCompatActivity
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //String nomeGrupo =  listaNovos.get(position);
         String codGrupo = listaCodigosGrupos.get(position);
-        gerarAlertDialog("Entrar no grupo?", "Você deseja participar deste grupo?", codGrupo);
+        try {
+            gerarAlertDialog("Entrar no grupo?", "Você deseja participar deste grupo?", codGrupo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public void gerarAlertDialog(String title, String message, final String codGrupo) {
+    public void gerarAlertDialog(String title, String message, final String codGrupo) throws IOException, JSONException {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle(title);
         builder.setMessage(message);
+
+        final String senhaGrupo = globalDBHelper.selectSenhaGrupo(getApplicationContext(), codGrupo);
+
+        final EditText input = new EditText(NewgroupsActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
-                String emailUser = sp.getString("emailLogado",null);
-                try {
-                    globalDBHelper.insertIntoGrupoHasUsuario(getApplicationContext(), emailUser, codGrupo);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (!senhaGrupo.equals("null")) {
+                    String senhaDigitada = input.getText().toString();
+                    if (senhaDigitada.equals(senhaGrupo)) {
+                        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+                        String emailUser = sp.getString("emailLogado", null);
+                        try {
+                            globalDBHelper.insertIntoGrupoHasUsuario(getApplicationContext(), emailUser, codGrupo);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Senha Incorreta!", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         };
         builder.setPositiveButton("Participar", btnOk);
+        if (!senhaGrupo.equals("null")) {
+            builder.setView(input);
+        }
+
         builder.create().show();
+
     }
 
 
