@@ -203,6 +203,14 @@ public class NewgroupsActivity extends AppCompatActivity
                     } else {
                         Toast.makeText(getApplicationContext(), "Senha Incorreta!", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+                    String emailUser = sp.getString("emailLogado", null);
+                    try {
+                        globalDBHelper.insertIntoGrupoHasUsuario(getApplicationContext(), emailUser, codGrupo);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
