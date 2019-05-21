@@ -222,7 +222,7 @@ public class GlobalDBHelper {
             return null;
         }
         checkThreadPolicy();
-        URL url = new URL(URL_GLOBAL_DB + "ws_read/ws_read_posts_grupo.php?cod="+cod);
+        URL url = new URL(URL_GLOBAL_DB + "ws_read/ws_read_posts_grupo.php?grupoCod="+cod);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         StringBuilder sb = new StringBuilder();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));

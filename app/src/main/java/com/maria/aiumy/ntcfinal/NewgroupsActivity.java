@@ -180,6 +180,7 @@ public class NewgroupsActivity extends AppCompatActivity
         final String senhaGrupo = globalDBHelper.selectSenhaGrupo(getApplicationContext(), codGrupo);
 
         final EditText input = new EditText(NewgroupsActivity.this);
+        input.setHint("  Este grupo é fechado, digite a senha...");
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -190,6 +191,7 @@ public class NewgroupsActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 if (!senhaGrupo.equals("null")) {
                     String senhaDigitada = input.getText().toString();
+
                     if (senhaDigitada.equals(senhaGrupo)) {
                         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
                         String emailUser = sp.getString("emailLogado", null);
@@ -207,6 +209,7 @@ public class NewgroupsActivity extends AppCompatActivity
         builder.setPositiveButton("Participar", btnOk);
         if (!senhaGrupo.equals("null")) {
             builder.setView(input);
+
         }
 
         builder.create().show();
