@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -163,7 +161,7 @@ public class GrupoActivity extends AppCompatActivity
             listaPosts.add(conteudo);
         }
 
-        ListView neoListView = (ListView) findViewById(R.id.listaposts);
+        ListView neoListView = (ListView) findViewById(R.id.listacoments);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaPosts);
         neoListView.setOnItemClickListener(this);
         neoListView.setAdapter(adapter);

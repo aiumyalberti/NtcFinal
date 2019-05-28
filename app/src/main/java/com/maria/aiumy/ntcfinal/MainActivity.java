@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         String nomeGrupo =  listaGrupos.get(position);
         String codGrupo = listaCodGrupos.get(position);

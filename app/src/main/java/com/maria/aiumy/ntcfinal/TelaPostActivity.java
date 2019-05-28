@@ -15,9 +15,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import bdcontroler.GlobalDBHelper;
 
 public class TelaPostActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
+    ArrayList<String> listacoments = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +50,14 @@ public class TelaPostActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Bundle bundle = getIntent().getExtras();
+        String conteudoPost = bundle.getString("conteudoPost");
+        TextView textViewPost = (TextView) findViewById(R.id.textPost);
+        textViewPost.setText(conteudoPost);
+        String codPost = bundle.getString("codPost");
+
+
     }
 
     @Override
@@ -103,5 +126,32 @@ public class TelaPostActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+        String nomeGrupo =  listaComents.get(position);
+        Bundle b = new Bundle();
+        Intent intent = new Intent(this, TelaPostActivity.class);
+        b.putString("conteudoPost", conteudoPost.toString());
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
+    public void arrayPosts(String codGrupo) throws IOException, JSONException //
+    {
+
+        JSONArray jsonPosts = globalDBHelper.selectPostGrupo(getApplicationContext(), codGrupo);
+
+
+        for (int i = 0; i < jsonPosts.length(); i++) {
+            JSONObject grupoObject = jsonPosts.getJSONObject(i);
+            String conteudo = grupoObject.getString("conteudo");
+            listaPosts.add(conteudo);
+        }
+
+        ListView neoListView = (ListView) findViewById(R.id.listacoments);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaPosts);
+        neoListView.setOnItemClickListener(this);
+        neoListView.setAdapter(adapter);
+
     }
 }
