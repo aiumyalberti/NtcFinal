@@ -40,12 +40,12 @@ public class GlobalDBHelper {
     }
 
 
-    public int insertIntoPostagem(Context context, String conteudo, String nick, String grupo_cod, String emailUser) throws IOException {
+    public int insertIntoPostagem(Context context, String conteudo, String data_hora, String nick, String grupo_cod, String emailUser) throws IOException {
         if (!checkNetworkConnection(context)) {
             return 0;
         }
         checkThreadPolicy();
-        String values = "conteudo="+conteudo+"&nick="+nick+"&grupo_has_usuario_grupo_cod="+
+        String values = "conteudo="+conteudo+"data_hora="+data_hora+"&nick="+nick+"&grupo_has_usuario_grupo_cod="+
                 grupo_cod+"&grupo_has_usuario_usuario_email="+emailUser+"";
         Log.d("HUEHUE", URL_GLOBAL_DB + "ws_insert/ws_insert_postagem.php?"+values);
         URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_postagem.php?"+values);

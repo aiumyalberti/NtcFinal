@@ -4,10 +4,6 @@ package com.maria.aiumy.ntcfinal;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,21 +14,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import java.util.Calendar;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -138,6 +128,10 @@ public class PostagemActivity extends AppCompatActivity
         ArrayList<String> listaEmail = new ArrayList<String>();
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
         String emailUser = sp.getString("emailLogado",null);
+        Date currentTime = Calendar.getInstance().getTime();
+        currentTime.getMonth();
+        currentTime.getDay();
+        currentTime.getYear();
         int deuCerto = globalDBHelper.insertIntoPostagem(getApplicationContext(), conteudo, nick, codGrupo, emailUser);
         if (deuCerto == 1) {
             gerarAlertDialog("Sua postagem realizada!", "Postagem concluída com sucesso!");
