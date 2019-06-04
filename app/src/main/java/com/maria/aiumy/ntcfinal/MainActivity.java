@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import bdcontroler.GlobalDBHelper;
-
+// TO TESTESTANDO AQUI PERA
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener  {
