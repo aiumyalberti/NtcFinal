@@ -146,8 +146,7 @@ public class GrupoActivity extends AppCompatActivity
     }
 
     public void clicarparaNovoPost (View v){
-        Intent intent = new Intent(this, PostagemActivity.class);
-        startActivity(intent);
+        onItemClickNovo();
     }
 
     public void arrayPosts(String codGrupo) throws IOException, JSONException //
@@ -169,6 +168,16 @@ public class GrupoActivity extends AppCompatActivity
     }
 
 
+    public void onItemClickNovo() {
+        Bundle bundle = getIntent().getExtras();
+        String codGrupo = bundle.getString("codGrupo");
+        Bundle b = new Bundle();
+        Intent intent = new Intent(this, PostagemActivity.class);
+        b.putString("codGrupo", codGrupo);
+        intent.putExtras(b);
+        startActivity(intent);
+
+    }
 
 
 }

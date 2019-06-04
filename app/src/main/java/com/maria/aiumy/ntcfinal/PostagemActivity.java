@@ -58,6 +58,7 @@ public class PostagemActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
+    String codGrupo;
     ArrayList<String> listaPostagens = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,15 @@ public class PostagemActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        Bundle bundle = getIntent().getExtras();
+        codGrupo = bundle.getString("codGrupo");
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -125,27 +132,19 @@ public class PostagemActivity extends AppCompatActivity
         String conteudo = postEditText.getText().toString();
         EditText nickEditText = (EditText) findViewById(R.id.usuarioCriaNick);
         String nick = nickEditText.getText().toString();
-        MediaPlayer som_r2d2 = MediaPlayer.create(this,R.raw.r2d2);
-        som_r2d2.start();
 
         JSONArray usuarios = globalDBHelper.selectAllFromUsuarios(getApplicationContext());
 
         ArrayList<String> listaEmail = new ArrayList<String>();
-        String emailUsuario = "matheus.henrique@gmail.com";
-        //for (int i=0; i<usuarios.length(); i++){
-        //    JSONObject emailObject = usuarios.getJSONObject(i);
-        //    emailUsuario = emailObject.getString("email");
-        //    listaEmail.add(emailUsuario);
-        //}
-
-        String grupo_cod = "4";
-        int deuCerto = globalDBHelper.insertIntoPostagem(getApplicationContext(), conteudo, nick, grupo_cod, emailUsuario);
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        String emailUser = sp.getString("emailLogado",null);
+        int deuCerto = globalDBHelper.insertIntoPostagem(getApplicationContext(), conteudo, nick, codGrupo, emailUser);
         if (deuCerto == 1) {
             gerarAlertDialog("Sua postagem realizada!", "Postagem concluída com sucesso!");
-//            gerarNotificacao("Cadastro concluído!", "Seu cadastro foi efetuado com sucesso!");
+
         } else {
             gerarAlertDialog("Posatagem não realizada!", "Sua postagem não pode ser concluída, verifique sua conexão com a Internet e tente novamente!");
-//            gerarNotificacao("Sua postagem realizada!", "Postagem não realizada");
+
         }
     }
 
@@ -169,7 +168,7 @@ public class PostagemActivity extends AppCompatActivity
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), GrupoActivity.class);
                 startActivity(intent);
             }
         };

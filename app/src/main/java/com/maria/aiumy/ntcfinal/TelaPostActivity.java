@@ -51,11 +51,6 @@ public class TelaPostActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Bundle bundle = getIntent().getExtras();
-        String conteudoPost = bundle.getString("conteudoPost");
-        TextView textViewPost = (TextView) findViewById(R.id.textPost);
-        textViewPost.setText(conteudoPost);
-        String codPost = bundle.getString("codPost");
 
 
     }
@@ -127,30 +122,22 @@ public class TelaPostActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        String nomeGrupo =  listaComents.get(position);
-        Bundle b = new Bundle();
-        Intent intent = new Intent(this, TelaPostActivity.class);
-        b.putString("conteudoPost", conteudoPost.toString());
-        intent.putExtras(b);
-        startActivity(intent);
-    }
 
-    public void arrayPosts(String codGrupo) throws IOException, JSONException //
+    public void arrayPosts(String codPost) throws IOException, JSONException //
     {
 
-        JSONArray jsonPosts = globalDBHelper.selectPostGrupo(getApplicationContext(), codGrupo);
+        JSONArray jsonPosts = globalDBHelper.selectPostGrupo(getApplicationContext(), codPost);
 
 
         for (int i = 0; i < jsonPosts.length(); i++) {
             JSONObject grupoObject = jsonPosts.getJSONObject(i);
             String conteudo = grupoObject.getString("conteudo");
-            listaPosts.add(conteudo);
+            listacoments.add(conteudo);
         }
 
         ListView neoListView = (ListView) findViewById(R.id.listacoments);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaPosts);
-        neoListView.setOnItemClickListener(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listacoments);
+        neoListView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
         neoListView.setAdapter(adapter);
 
     }
