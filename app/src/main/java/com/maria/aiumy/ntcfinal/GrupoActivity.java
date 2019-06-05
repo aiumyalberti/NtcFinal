@@ -134,14 +134,12 @@ public class GrupoActivity extends AppCompatActivity
         return true;
     }
 
-
-
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         String nomeGrupo =  listaPosts.get(position);
         Bundle b = new Bundle();
         Intent intent = new Intent(this, TelaPostActivity.class);
-        b.putString("nomeGrupo", nomeGrupo.toString());
+        b.putString("postagem", nomeGrupo.toString());
         intent.putExtras(b);
         startActivity(intent);
     }

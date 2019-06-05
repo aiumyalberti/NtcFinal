@@ -13,6 +13,7 @@ import org.json.JSONException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
@@ -248,6 +249,23 @@ public class GlobalDBHelper {
             sb.append(json + "\n");
         }
         return sb.toString().trim();
+    }
+
+    public JSONArray selectComments(Context context, String cod) throws JSONException, IOException {
+        if (!checkNetworkConnection(context)) {
+            return null;
+        }
+        checkThreadPolicy();
+        URL url = new URL(URL_GLOBAL_DB + "ws_read/ws_read_posts_grupo.php?grupoCod="+cod);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        StringBuilder sb = new StringBuilder();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String json;
+        while ((json = bufferedReader.readLine()) != null) {
+            sb.append(json + "\n");
+        }
+        JSONArray jsonArray = new JSONArray(sb.toString().trim());
+        return jsonArray;
     }
 
     private boolean checkNetworkConnection(Context context) {

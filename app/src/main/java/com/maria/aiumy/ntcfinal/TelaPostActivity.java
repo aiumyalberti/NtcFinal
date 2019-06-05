@@ -33,6 +33,8 @@ public class TelaPostActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     ArrayList<String> listacoments = new ArrayList<String>();
+    String listaposts;
+    String postName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +43,29 @@ public class TelaPostActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        Bundle bundle = getIntent().getExtras();
+        postName = bundle.getString("postagem");
+
+
+        displayPostName();
+
+        try {
+            arrayPosts();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
 
     }
@@ -123,22 +138,44 @@ public class TelaPostActivity extends AppCompatActivity
         return true;
     }
 
-    public void arrayPosts(String codPost) throws IOException, JSONException //
+    public void displayPostName() {
+        TextView postConteudo = (TextView) findViewById(R.id.conteudoPost);
+        postConteudo.setText(postName);
+    }
+
+    public void arrayPosts() throws IOException, JSONException //
     {
+        String codPost = "0";
+        String[] namePost = new String[256];
 
-        JSONArray jsonPosts = globalDBHelper.selectPostGrupo(getApplicationContext(), codPost);
-
+        JSONArray jsonPosts = globalDBHelper.selectAllFromPostagem(getApplicationContext());
 
         for (int i = 0; i < jsonPosts.length(); i++) {
             JSONObject grupoObject = jsonPosts.getJSONObject(i);
-            String conteudo = grupoObject.getString("conteudo");
-            listacoments.add(conteudo);
+            namePost[i] = grupoObject.getString("conteudo");
         }
 
-        ListView neoListView = (ListView) findViewById(R.id.listacoments);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listacoments);
-        neoListView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
-        neoListView.setAdapter(adapter);
+        for (int i = 0; i < namePost.length; i++) {
+            if (namePost[i].equals(postName)) {
+                JSONObject grupoObject = jsonPosts.getJSONObject(i);
+                codPost = grupoObject.getString("cod");
+            }
+        }
 
-    }
+            JSONArray jsonComments = globalDBHelper.selectComments(getApplicationContext(), codPost);
+
+
+            for (int i = 0; i < jsonComments.length(); i++) {
+                JSONObject grupoObject = jsonComments.getJSONObject(i);
+                String comment = grupoObject.getString("conteudo");
+                listacoments.add(comment);
+            }
+
+            ListView neoListView = (ListView) findViewById(R.id.listacoments);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listacoments);
+//        neoListView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+            neoListView.setAdapter(adapter);
+
+        }
+
 }
