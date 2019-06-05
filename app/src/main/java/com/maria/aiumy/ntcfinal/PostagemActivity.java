@@ -38,6 +38,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 import bdcontroler.GlobalDBHelper;
 import bdcontroler.LocalDBHelper;
@@ -50,6 +51,7 @@ public class PostagemActivity extends AppCompatActivity
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     String codGrupo;
     ArrayList<String> listaPostagens = new ArrayList<String>();
+    String data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -58,6 +60,22 @@ public class PostagemActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        Date currentTime = Calendar.getInstance().getTime();
+//        String getMonth = getString(currentTime.getMonth());
+//        String getDay = getString(currentTime.getDay());
+//        String getYear = getString(currentTime.getYear());
+//
+//        Calendar rightNow = Calendar.getInstance();
+//        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+//        String getHour = getString(currentHour);
+//        data = getYear+"-"+getMonth+"-"+getDay+" "+getHour;
+//        System.out.println("testando: " + data);
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        data = sdf.format(Calendar.getInstance().getTime());
+        System.out.println("testando: " + data);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -128,11 +146,8 @@ public class PostagemActivity extends AppCompatActivity
         ArrayList<String> listaEmail = new ArrayList<String>();
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
         String emailUser = sp.getString("emailLogado",null);
-        Date currentTime = Calendar.getInstance().getTime();
-        currentTime.getMonth();
-        currentTime.getDay();
-        currentTime.getYear();
-        int deuCerto = globalDBHelper.insertIntoPostagem(getApplicationContext(), conteudo, nick, codGrupo, emailUser);
+
+        int deuCerto = globalDBHelper.insertIntoPostagem(getApplicationContext(), conteudo, data, nick, codGrupo, emailUser);
         if (deuCerto == 1) {
             gerarAlertDialog("Sua postagem realizada!", "Postagem concluída com sucesso!");
 
@@ -162,7 +177,7 @@ public class PostagemActivity extends AppCompatActivity
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getBaseContext(), GrupoActivity.class);
+                Intent intent = new Intent(getBaseContext(), PostagemActivity.class);
                 startActivity(intent);
             }
         };

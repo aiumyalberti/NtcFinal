@@ -48,6 +48,7 @@ public class GrupoActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         Bundle bundle = getIntent().getExtras();
         String nomeGrupo = bundle.getString("nomeGrupo");
         TextView textViewGrupo = (TextView) findViewById(R.id.textGrupo);
