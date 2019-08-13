@@ -141,7 +141,6 @@ public class NewgroupsActivity extends AppCompatActivity
     {
         JSONArray jsonNovos = globalDBHelper.selectAllFromGrupos(getApplicationContext());
 
-
         for (int i = 0; i < jsonNovos.length(); i++) {
             JSONObject grupoObject = jsonNovos.getJSONObject(i);
             String nomeGrupo = grupoObject.getString("nome");
@@ -150,6 +149,7 @@ public class NewgroupsActivity extends AppCompatActivity
             listaCodigosGrupos.add(codGrupo);
         }
 
+        System.out.println("olhe aqui " + listaNovos);
         ListView neoListView = (ListView) findViewById(R.id.list_new);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaNovos);
         neoListView.setOnItemClickListener(this);
