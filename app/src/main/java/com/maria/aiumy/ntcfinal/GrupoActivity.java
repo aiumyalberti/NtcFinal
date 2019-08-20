@@ -31,6 +31,7 @@ public class GrupoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     ArrayList<String> listaPosts = new ArrayList<String>();
+    ArrayList<String> listaCodPosts = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,10 +137,12 @@ public class GrupoActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        String nomeGrupo =  listaPosts.get(position);
+        String nomePost =  listaPosts.get(position);
+        String codPost = listaCodPosts.get(position);
         Bundle b = new Bundle();
         Intent intent = new Intent(this, TelaPostActivity.class);
-        b.putString("postagem", nomeGrupo.toString());
+        b.putString("postagem", nomePost);
+        b.putString("codPost", codPost);
         intent.putExtras(b);
         startActivity(intent);
     }
@@ -157,6 +160,8 @@ public class GrupoActivity extends AppCompatActivity
             JSONObject grupoObject = jsonPosts.getJSONObject(i);
             String conteudo = grupoObject.getString("conteudo");
             listaPosts.add(conteudo);
+            String codPost = grupoObject.getString("cod");
+            listaCodPosts.add(codPost);
         }
 
         ListView neoListView = (ListView) findViewById(R.id.listacoments);

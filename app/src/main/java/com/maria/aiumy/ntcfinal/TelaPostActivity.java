@@ -57,7 +57,7 @@ public class TelaPostActivity extends AppCompatActivity
         displayPostName();
 
         try {
-            arrayPosts();
+            arrayComments();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -143,39 +143,22 @@ public class TelaPostActivity extends AppCompatActivity
         postConteudo.setText(postName);
     }
 
-    public void arrayPosts() throws IOException, JSONException //
+    public void arrayComments() throws IOException, JSONException //
     {
-        String codPost = "0";
-        String[] namePost = new String[256];
+        String codPost = getIntent().getExtras().getString("codPost");
+        JSONArray jsonComments = globalDBHelper.selectComments(getApplicationContext(), codPost);
 
-        JSONArray jsonPosts = globalDBHelper.selectAllFromPostagem(getApplicationContext());
 
-        for (int i = 0; i < jsonPosts.length(); i++) {
-            JSONObject grupoObject = jsonPosts.getJSONObject(i);
-            namePost[i] = grupoObject.getString("conteudo");
+        for (int i = 0; i < jsonComments.length(); i++) {
+            JSONObject grupoObject = jsonComments.getJSONObject(i);
+            String comment = grupoObject.getString("conteudo");
+            listacoments.add(comment);
         }
 
-        for (int i = 0; i < namePost.length; i++) {
-            if (namePost[i].equals(postName)) {
-                JSONObject grupoObject = jsonPosts.getJSONObject(i);
-                codPost = grupoObject.getString("cod");
-            }
-        }
+        ListView neoListView = (ListView) findViewById(R.id.listacoments);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listacoments);
+        neoListView.setAdapter(adapter);
 
-            JSONArray jsonComments = globalDBHelper.selectComments(getApplicationContext(), codPost);
-
-
-            for (int i = 0; i < jsonComments.length(); i++) {
-                JSONObject grupoObject = jsonComments.getJSONObject(i);
-                String comment = grupoObject.getString("conteudo");
-                listacoments.add(comment);
-            }
-
-            ListView neoListView = (ListView) findViewById(R.id.listacoments);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listacoments);
-//        neoListView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
-            neoListView.setAdapter(adapter);
-
-        }
+    }
 
 }
