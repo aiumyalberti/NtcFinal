@@ -138,7 +138,34 @@ public class GrupoActivity extends AppCompatActivity
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         String nomePost =  listaPosts.get(position);
-        String codPost = listaCodPosts.get(position);
+        String codPost = null;
+        JSONArray jsonComments = null;
+        try {
+             jsonComments = globalDBHelper.selectAllFromPostagem(getApplicationContext());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < jsonComments.length(); i++) {
+            JSONObject grupoObject = null;
+            try {
+                grupoObject = jsonComments.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                String namePost = grupoObject.getString("conteudo");
+                if (namePost.equals(nomePost)) {
+                    codPost = grupoObject.getString("cod");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         Bundle b = new Bundle();
         Intent intent = new Intent(this, TelaPostActivity.class);
         b.putString("postagem", nomePost);

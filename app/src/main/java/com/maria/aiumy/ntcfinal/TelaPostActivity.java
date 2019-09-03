@@ -154,7 +154,7 @@ public class TelaPostActivity extends AppCompatActivity
             String comment = grupoObject.getString("conteudo");
             listacoments.add(comment);
         }
-
+        System.out.println(listacoments);
         ListView neoListView = (ListView) findViewById(R.id.listacoments);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listacoments);
         neoListView.setAdapter(adapter);
