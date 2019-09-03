@@ -143,6 +143,11 @@ public class TelaPostActivity extends AppCompatActivity
         postConteudo.setText(postName);
     }
 
+    public void clicarparaNovoComment (View view){
+        Intent intent = new Intent(this, ComentarioActivity.class);
+        startActivity(intent);
+    }
+
     public void arrayComments() throws IOException, JSONException //
     {
         String codPost = getIntent().getExtras().getString("codPost");

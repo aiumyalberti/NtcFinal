@@ -51,7 +51,7 @@ public class PostagemActivity extends AppCompatActivity
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     String codGrupo;
     ArrayList<String> listaPostagens = new ArrayList<String>();
-    String data;
+    String data = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,28 +60,19 @@ public class PostagemActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        Date currentTime = Calendar.getInstance().getTime();
-//        String getMonth = getString(currentTime.getMonth());
-//        String getDay = getString(currentTime.getDay());
-//        String getYear = getString(currentTime.getYear());
-//
-//        Calendar rightNow = Calendar.getInstance();
-//        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-//        String getHour = getString(currentHour);
-//        data = getYear+"-"+getMonth+"-"+getDay+" "+getHour;
-//        System.out.println("testando: " + data);
-
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        data = sdf.format(Calendar.getInstance().getTime());
-        System.out.println("testando: " + data);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        data = sdf.format(Calendar.getInstance().getTime());
+//        System.out.println("testando: " + data);
+
 
         Bundle bundle = getIntent().getExtras();
         codGrupo = bundle.getString("codGrupo");

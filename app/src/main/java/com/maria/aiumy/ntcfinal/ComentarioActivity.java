@@ -3,7 +3,9 @@ package com.maria.aiumy.ntcfinal;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -16,9 +18,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class ComentarioActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    String data;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +46,45 @@ public class ComentarioActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Date currentTime = Calendar.getInstance().getTime();
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int month = localDate.getMonthValue();
+
+        int monthDay = localDate.getDayOfMonth();
+        int year = localDate.getYear();
+
+        String sMonth = "";
+        String sDay = "";
+        if (month < 10) {
+            sMonth = "0"+ month;
+            sDay = "0" + monthDay;
+        } else {
+            sMonth = String.valueOf(month);
+            sDay = String.valueOf(monthDay);
+        }
+
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(date);   // assigns calendar to given date
+        String hora = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)); // gets hour in 24h format
+        String minute = String.valueOf(calendar.get(Calendar.MINUTE));
+        String second = String.valueOf(calendar.get(Calendar.SECOND));
+        System.out.println(year+"-"+sMonth+"-"+sDay + " " +hora+ ":"+ minute+ ":"+ second);
+
+
+
+        String
+//        String getDay = getString(currentTime.getDay());
+//        String getYear = getString(currentTime.getYear());
+//
+//        Calendar rightNow = Calendar.getInstance();
+//        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+//        String getHour = getString(currentHour);
+//        data = getYear+"-"+getMonth+"-"+getDay+" "+getHour;
+//        System.out.println("testando: " + data);
+
+
     }
 
     @Override
