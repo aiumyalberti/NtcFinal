@@ -4,6 +4,7 @@ package com.maria.aiumy.ntcfinal;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,8 +23,12 @@ import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.widget.EditText;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.maria.aiumy.ntcfinal.MainActivity;
@@ -38,6 +43,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import bdcontroler.GlobalDBHelper;
@@ -52,6 +58,7 @@ public class PostagemActivity extends AppCompatActivity
     String codGrupo;
     ArrayList<String> listaPostagens = new ArrayList<String>();
     String data = null;
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -67,15 +74,28 @@ public class PostagemActivity extends AppCompatActivity
         toggle.syncState();
 
 
+        Date date = new Date();
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        data = sdf.format(Calendar.getInstance().getTime());
-//        System.out.println("testando: " + data);
+        DateFormat dateFormat = new SimpleDateFormat("HH");
+        String hour = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("mm");
+        String minute = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("ss");
+        String second = dateFormat.format(date);
 
+        dateFormat = new SimpleDateFormat("dd");
+        String day = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("MM");
+        String mouth = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("yyyy");
+        String year = dateFormat.format(date);
+
+        System.out.println(year+"-"+mouth+"-"+day+ " " +hour+ ":"+ minute+ ":"+ second);
+        data = year+"-"+mouth+"-"+day+ " " +hour+ ":"+ minute+ ":"+ second;
 
         Bundle bundle = getIntent().getExtras();
         codGrupo = bundle.getString("codGrupo");
+        System.out.println(codGrupo);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -117,48 +137,24 @@ public class PostagemActivity extends AppCompatActivity
     }
 
 
-    public void botao(View view){
-        MediaPlayer som_r2d2 = MediaPlayer.create(this,R.raw.r2d2);
-        som_r2d2.start();
-    }
-
-    public void emailSimulator() throws IOException, JSONException {
-
-    }
-
     public void postar(View v) throws IOException, JSONException {
         EditText postEditText = (EditText) findViewById(R.id.usuarioCriaPost);
         String conteudo = postEditText.getText().toString();
         EditText nickEditText = (EditText) findViewById(R.id.usuarioCriaNick);
         String nick = nickEditText.getText().toString();
 
-        JSONArray usuarios = globalDBHelper.selectAllFromUsuarios(getApplicationContext());
-
-        ArrayList<String> listaEmail = new ArrayList<String>();
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
         String emailUser = sp.getString("emailLogado",null);
 
         int deuCerto = globalDBHelper.insertIntoPostagem(getApplicationContext(), conteudo, data, nick, codGrupo, emailUser);
         if (deuCerto == 1) {
-            gerarAlertDialog("Sua postagem realizada!", "Postagem concluída com sucesso!");
-
+            gerarAlertDialog("Sua postagem foi realizada!", "Postagem concluída com sucesso!");
         } else {
             gerarAlertDialog("Posatagem não realizada!", "Sua postagem não pode ser concluída, verifique sua conexão com a Internet e tente novamente!");
 
         }
     }
 
-
-//
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel =
-                    new NotificationChannel("my_channel_id_01", "my_channel",  NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.createNotificationChannel(channel);
-        }
-    }
 
 
     public void gerarAlertDialog(String title, String message) {
@@ -168,7 +164,7 @@ public class PostagemActivity extends AppCompatActivity
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getBaseContext(), PostagemActivity.class);
+                Intent intent = new Intent(getBaseContext(), GrupoActivity.class);
                 startActivity(intent);
             }
         };

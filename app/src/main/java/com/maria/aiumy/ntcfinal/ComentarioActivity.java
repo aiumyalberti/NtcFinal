@@ -18,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
@@ -47,34 +49,26 @@ public class ComentarioActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Date currentTime = Calendar.getInstance().getTime();
+
         Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        int month = localDate.getMonthValue();
 
-        int monthDay = localDate.getDayOfMonth();
-        int year = localDate.getYear();
+        DateFormat dateFormat = new SimpleDateFormat("HH");
+        String hour = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("mm");
+        String minute = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("ss");
+        String second = dateFormat.format(date);
 
-        String sMonth = "";
-        String sDay = "";
-        if (month < 10) {
-            sMonth = "0"+ month;
-            sDay = "0" + monthDay;
-        } else {
-            sMonth = String.valueOf(month);
-            sDay = String.valueOf(monthDay);
-        }
+        dateFormat = new SimpleDateFormat("dd");
+        String day = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("MM");
+        String mouth = dateFormat.format(date);
+        dateFormat = new SimpleDateFormat("yyyy");
+        String year = dateFormat.format(date);
 
-        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-        calendar.setTime(date);   // assigns calendar to given date
-        String hora = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)); // gets hour in 24h format
-        String minute = String.valueOf(calendar.get(Calendar.MINUTE));
-        String second = String.valueOf(calendar.get(Calendar.SECOND));
-        System.out.println(year+"-"+sMonth+"-"+sDay + " " +hora+ ":"+ minute+ ":"+ second);
+        System.out.println(year+"-"+mouth+"-"+day+ " " +hour+ ":"+ minute+ ":"+ second);
+        data = year+"-"+mouth+"-"+day+ " " +hour+ ":"+ minute+ ":"+ second;
 
-
-
-        String
 //        String getDay = getString(currentTime.getDay());
 //        String getYear = getString(currentTime.getYear());
 //

@@ -46,10 +46,12 @@ public class GlobalDBHelper {
             return 0;
         }
         checkThreadPolicy();
-        String values = "conteudo="+conteudo+"&data_hora="+data_hora+"&nick="+nick+"&grupo_has_usuario_grupo_cod="+
+        String data_hora_no_space = data_hora.replace(" ", "%20");
+        String values = "conteudo="+conteudo+"&data_hora="+data_hora_no_space+"&nick="+nick+"&grupo_has_usuario_grupo_cod="+
                 grupo_cod+"&grupo_has_usuario_usuario_email="+emailUser;
         Log.d("HUEHUE", URL_GLOBAL_DB + "ws_insert/ws_insert_postagem.php?"+values);
         URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_postagem.php?"+values);
+        System.out.println(URL_GLOBAL_DB + "ws_insert/ws_insert_postagem.php?"+values);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String response = bufferedReader.readLine();
