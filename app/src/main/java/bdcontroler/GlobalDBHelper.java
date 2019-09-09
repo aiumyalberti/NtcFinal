@@ -41,6 +41,27 @@ public class GlobalDBHelper {
     }
 
 
+    public int insertIntoComentario(Context context, String nick, String data_hora, String conteudo, String emailUser, String comentario_cod, String postagem_cod) throws IOException {
+        if (!checkNetworkConnection(context)) {
+            return 0;
+        }
+
+        checkThreadPolicy();
+
+        String values = "nick=+"+nick+"&"+"data_hora="+data_hora+"&"+"conteudo="+conteudo+"&"+"usuario_email="+emailUser+"&"+"comentario_cod="+comentario_cod+"&"+"postagem_cod="+postagem_cod;
+        System.out.println(URL_GLOBAL_DB + "ws_insert/ws_insert_comentario.php?"+values);
+        URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_comentario.php?"+values);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String response = bufferedReader.readLine();
+        if (response.equals("false")) {
+            Toast.makeText(context, "Erro no BD Global!", Toast.LENGTH_LONG).show();
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     public int insertIntoPostagem(Context context, String conteudo, String data_hora, String nick, String grupo_cod, String emailUser) throws IOException {
         if (!checkNetworkConnection(context)) {
             return 0;
@@ -105,24 +126,6 @@ public class GlobalDBHelper {
         }
     }
 
-//    public int insertIntoComentario(Context context, String cod, String conteudo, String data_hora, String nick, String grupo_cod, String emailUser) throws IOException {
-//        if (!checkNetworkConnection(context)) {
-//            return 0;
-//        }
-//        checkThreadPolicy();
-//        String values = "cod="+cod+"&"+"conteudo="+conteudo+"&"+"data_hora="+data_hora+"&"+"nick=+"+nick+"&"
-//                +"grupo_has_usuario_grupo_cod="+grupo_cod+"grupo_has_usuario_usuario_email="+emailUser;
-//        URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_usuario.php?"+values);
-//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//        String response = bufferedReader.readLine();
-//        if (response.equals("false")) {
-//            Toast.makeText(context, "Erro no BD Global!", Toast.LENGTH_LONG).show();
-//            return 0;
-//        } else {
-//            return 1;
-//        }
-//    }
      public void updateUsuarios(Context context, String email) throws IOException {
         if (!checkNetworkConnection(context)) {
             return;

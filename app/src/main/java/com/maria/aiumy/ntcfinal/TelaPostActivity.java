@@ -35,6 +35,7 @@ public class TelaPostActivity extends AppCompatActivity
     ArrayList<String> listacoments = new ArrayList<String>();
     String listaposts;
     String postName;
+    String codPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,14 +144,14 @@ public class TelaPostActivity extends AppCompatActivity
         postConteudo.setText(postName);
     }
 
-    public void clicarparaNovoComment (View view){
+    public void aaaa (View view){
         Intent intent = new Intent(this, ComentarioActivity.class);
         startActivity(intent);
     }
 
     public void arrayComments() throws IOException, JSONException //
     {
-        String codPost = getIntent().getExtras().getString("codPost");
+        codPost = getIntent().getExtras().getString("codPost");
         JSONArray jsonComments = globalDBHelper.selectComments(getApplicationContext(), codPost);
 
 
@@ -165,5 +166,14 @@ public class TelaPostActivity extends AppCompatActivity
         neoListView.setAdapter(adapter);
 
     }
+    public void clicarparaNovoComment(View view) {
+        Bundle bundle = getIntent().getExtras();
+        String postCod = bundle.getString("postCod");
+        Bundle b = new Bundle();
+        Intent intent = new Intent(this, ComentarioActivity.class);
+        b.putString("postCod", postCod);
+        intent.putExtras(b);
+        startActivity(intent);
 
+    }
 }

@@ -1,6 +1,8 @@
 package com.maria.aiumy.ntcfinal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -17,7 +19,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -27,9 +33,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import bdcontroler.GlobalDBHelper;
+
 public class ComentarioActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String data;
+    private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
+    String codGrupo;
+//    String postCod = "";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -50,6 +61,8 @@ public class ComentarioActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+
+
         Date date = new Date();
 
         DateFormat dateFormat = new SimpleDateFormat("HH");
@@ -67,17 +80,7 @@ public class ComentarioActivity extends AppCompatActivity
         String year = dateFormat.format(date);
 
         System.out.println(year+"-"+mouth+"-"+day+ " " +hour+ ":"+ minute+ ":"+ second);
-        data = year+"-"+mouth+"-"+day+ " " +hour+ ":"+ minute+ ":"+ second;
-
-//        String getDay = getString(currentTime.getDay());
-//        String getYear = getString(currentTime.getYear());
-//
-//        Calendar rightNow = Calendar.getInstance();
-//        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-//        String getHour = getString(currentHour);
-//        data = getYear+"-"+getMonth+"-"+getDay+" "+getHour;
-//        System.out.println("testando: " + data);
-
+        data = year+"-"+mouth+"-"+day+ "%20" +hour+ ":"+ minute+ ":"+ second;
 
     }
 
@@ -112,6 +115,47 @@ public class ComentarioActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    public void comentar(View v) throws IOException, JSONException {
+        EditText comentEditText = (EditText) findViewById(R.id.usuarioCriaComent);
+        String conteudo = comentEditText.getText().toString();
+        EditText nickEditText = (EditText) findViewById(R.id.usuarioCriaNick);
+        String nick = nickEditText.getText().toString();
+
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        String emailUser = sp.getString("emailLogado",null);
+
+        Bundle bundle = getIntent().getExtras();
+        String postCod = bundle.getString("postCod");
+
+
+        String comentario_cod = null;
+        int deuCerto = globalDBHelper.insertIntoComentario(getApplicationContext(), nick, data, conteudo, emailUser, comentario_cod, postCod);
+        if (deuCerto == 1) {
+            gerarAlertDialog("Seu comentário foi realizado!", "Comentário concluído com sucesso!");
+        } else {
+            gerarAlertDialog("Comentário não realizado!", "Seu comentário não pode ser concluído, verifique sua conexão com a Internet e tente novamente!");
+
+        }
+    }
+
+
+
+    public void gerarAlertDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getBaseContext(), GrupoActivity.class);
+                startActivity(intent);
+            }
+        };
+        builder.setPositiveButton("Ok", btnOk);
+        builder.create().show();
+    }
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
