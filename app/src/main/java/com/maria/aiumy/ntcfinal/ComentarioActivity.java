@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,25 +24,25 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import bdcontroler.GlobalDBHelper;
 
 public class ComentarioActivity extends AppCompatActivity
+
         implements NavigationView.OnNavigationItemSelectedListener {
+
     String data;
     String comentarios_cod = null;
-    private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     String codGrupo;
     String postCod;
 
+    private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
+
+    // oncreate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comentario);
@@ -63,7 +61,7 @@ public class ComentarioActivity extends AppCompatActivity
 
 
 
-
+    // formatar a data
         Date date = new Date();
 
         DateFormat dateFormat = new SimpleDateFormat("HH");
@@ -116,6 +114,8 @@ public class ComentarioActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    // INSERT COMENTARIOS
     public void comentar(View v) throws IOException, JSONException {
         EditText comentEditText = (EditText) findViewById(R.id.usuarioCriaComent);
         String conteudo = comentEditText.getText().toString();
@@ -151,11 +151,6 @@ public class ComentarioActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                Intent intent = new Intent(getBaseContext(), TelaPostActivity.class);
-                Bundle b = new Bundle();
-                b.putString("postCod", postCod);
-                intent.putExtras(b);
-                startActivity(intent);
 
         }
         };

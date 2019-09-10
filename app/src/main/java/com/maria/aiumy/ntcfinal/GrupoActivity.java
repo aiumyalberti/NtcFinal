@@ -210,6 +210,7 @@ public class GrupoActivity extends AppCompatActivity
         editor.putString("group", codGrupo);
         editor.apply();
 
+
         intent.putExtras(b);
         startActivity(intent);
 
