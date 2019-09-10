@@ -168,8 +168,9 @@ public class GrupoActivity extends AppCompatActivity
 
         Bundle b = new Bundle();
         Intent intent = new Intent(this, TelaPostActivity.class);
+
         b.putString("postagem", nomePost);
-        b.putString("codPost", codPost);
+        b.putString("postCod", codPost);
         intent.putExtras(b);
         startActivity(intent);
     }
@@ -205,6 +206,10 @@ public class GrupoActivity extends AppCompatActivity
         Bundle b = new Bundle();
         Intent intent = new Intent(this, PostagemActivity.class);
         b.putString("codGrupo", codGrupo);
+        SharedPreferences.Editor editor = getSharedPreferences("grupoClicado", MODE_PRIVATE).edit();
+        editor.putString("group", codGrupo);
+        editor.apply();
+
         intent.putExtras(b);
         startActivity(intent);
 

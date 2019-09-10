@@ -47,8 +47,11 @@ public class GlobalDBHelper {
         }
 
         checkThreadPolicy();
+        String data_hora_no_space = data_hora.replace(" ", "%20");
+        String conteudo_no_space = conteudo.replace(" ", "%20");
+        String nick_no_space = nick.replace(" ", "%20");
 
-        String values = "nick=+"+nick+"&"+"data_hora="+data_hora+"&"+"conteudo="+conteudo+"&"+"usuario_email="+emailUser+"&"+"comentario_cod="+comentario_cod+"&"+"postagem_cod="+postagem_cod;
+        String values = "nick=+"+nick_no_space+"&"+"data_hora="+data_hora_no_space+"&"+"conteudo="+conteudo_no_space+"&"+"usuario_email="+emailUser+"&"+"comentarios_cod="+comentario_cod+"&"+"postagem_cod="+postagem_cod;
         System.out.println(URL_GLOBAL_DB + "ws_insert/ws_insert_comentario.php?"+values);
         URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_comentario.php?"+values);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -68,7 +71,9 @@ public class GlobalDBHelper {
         }
         checkThreadPolicy();
         String data_hora_no_space = data_hora.replace(" ", "%20");
-        String values = "conteudo="+conteudo+"&data_hora="+data_hora_no_space+"&nick="+nick+"&grupo_has_usuario_grupo_cod="+
+        String conteudo_no_space = conteudo.replace(" ", "%20");
+        String nick_no_space = nick.replace(" ", "%20");
+        String values = "conteudo="+conteudo_no_space+"&data_hora="+data_hora_no_space+"&nick="+nick_no_space+"&grupo_has_usuario_grupo_cod="+
                 grupo_cod+"&grupo_has_usuario_usuario_email="+emailUser;
         Log.d("HUEHUE", URL_GLOBAL_DB + "ws_insert/ws_insert_postagem.php?"+values);
         URL url = new URL(URL_GLOBAL_DB + "ws_insert/ws_insert_postagem.php?"+values);

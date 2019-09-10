@@ -164,8 +164,7 @@ public class PostagemActivity extends AppCompatActivity
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getBaseContext(), GrupoActivity.class);
-                startActivity(intent);
+
             }
         };
         builder.setPositiveButton("Ok", btnOk);

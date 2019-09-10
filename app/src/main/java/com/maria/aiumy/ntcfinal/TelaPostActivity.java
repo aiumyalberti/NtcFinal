@@ -53,7 +53,7 @@ public class TelaPostActivity extends AppCompatActivity
 
         Bundle bundle = getIntent().getExtras();
         postName = bundle.getString("postagem");
-
+        codPost = bundle.getString("postCod");
 
         displayPostName();
 
@@ -151,7 +151,7 @@ public class TelaPostActivity extends AppCompatActivity
 
     public void arrayComments() throws IOException, JSONException //
     {
-        codPost = getIntent().getExtras().getString("codPost");
+        codPost = getIntent().getExtras().getString("postCod");
         JSONArray jsonComments = globalDBHelper.selectComments(getApplicationContext(), codPost);
 
 
@@ -168,7 +168,7 @@ public class TelaPostActivity extends AppCompatActivity
     }
     public void clicarparaNovoComment(View view) {
         Bundle bundle = getIntent().getExtras();
-        String postCod = bundle.getString("postCod");
+        String postCod = bundle.getString("codPost");
         Bundle b = new Bundle();
         Intent intent = new Intent(this, ComentarioActivity.class);
         b.putString("postCod", postCod);

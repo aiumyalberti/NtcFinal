@@ -41,7 +41,7 @@ public class ComentarioActivity extends AppCompatActivity
     String comentarios_cod = null;
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     String codGrupo;
-//    String postCod = "";
+    String postCod;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -126,7 +126,7 @@ public class ComentarioActivity extends AppCompatActivity
         String emailUser = sp.getString("emailLogado",null);
 
         Bundle bundle = getIntent().getExtras();
-        String postCod = bundle.getString("postCod");
+        postCod = bundle.getString("postCod");
 
         int deuCerto;
 
@@ -147,9 +147,17 @@ public class ComentarioActivity extends AppCompatActivity
         builder.setTitle(title);
         builder.setMessage(message);
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
+
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+            public void onClick(DialogInterface dialog, int which)
+            {
+                Intent intent = new Intent(getBaseContext(), TelaPostActivity.class);
+                Bundle b = new Bundle();
+                b.putString("postCod", postCod);
+                intent.putExtras(b);
+                startActivity(intent);
+
+        }
         };
         builder.setPositiveButton("Ok", btnOk);
         builder.create().show();
