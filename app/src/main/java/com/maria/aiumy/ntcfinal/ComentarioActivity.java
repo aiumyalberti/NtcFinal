@@ -38,6 +38,7 @@ import bdcontroler.GlobalDBHelper;
 public class ComentarioActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String data;
+    String comentarios_cod = null;
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     String codGrupo;
 //    String postCod = "";
@@ -127,9 +128,10 @@ public class ComentarioActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         String postCod = bundle.getString("postCod");
 
+        int deuCerto;
 
-        String comentario_cod = null;
-        int deuCerto = globalDBHelper.insertIntoComentario(getApplicationContext(), nick, data, conteudo, emailUser, comentario_cod, postCod);
+            deuCerto = globalDBHelper.insertIntoComentario(getApplicationContext(), nick, data, conteudo, emailUser, null, postCod);
+
         if (deuCerto == 1) {
             gerarAlertDialog("Seu comentário foi realizado!", "Comentário concluído com sucesso!");
         } else {
@@ -147,8 +149,6 @@ public class ComentarioActivity extends AppCompatActivity
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getBaseContext(), GrupoActivity.class);
-                startActivity(intent);
             }
         };
         builder.setPositiveButton("Ok", btnOk);
