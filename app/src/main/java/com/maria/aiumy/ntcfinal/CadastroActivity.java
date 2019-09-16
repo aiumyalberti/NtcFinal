@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,10 +54,13 @@ public class CadastroActivity extends Activity {
         if (senha.trim().equals("")) {
             senha = null;
         }
-        MediaPlayer som_r2d2 = MediaPlayer.create(this,R.raw.r2d2);
-        som_r2d2.start();
         int deuCerto = globalDbHelper.insertIntoUsuarios(getApplicationContext(), email, senha);
         if (deuCerto == 1) {
+            SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("emailLogado", email);
+            editor.apply();
+
             gerarAlertDialog("Cadastro gerado", "Cadastro efetivado com sucesso!");
         } else {
             gerarAlertDialog("Cadastro não deu certo!", "Cadastro não efetivado com sucesso!");

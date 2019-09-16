@@ -1,6 +1,8 @@
 package com.maria.aiumy.ntcfinal;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,9 +17,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import java.io.IOException;
+
+import bdcontroler.GlobalDBHelper;
 
 public class PerfilActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,16 +112,145 @@ public class PerfilActivity extends AppCompatActivity
         return true;
     }
 
-    public void sair (View v){
 
-        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.remove("emailLogado");
-        editor.apply();
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+    // alert dialog apara atualizar senha
+
+    public void gerarAlertDialogAtt(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
+
+            SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+            String emailUser = sp.getString("emailLogado",null);
+
+            EditText novaSenha = (EditText) findViewById(R.id.attSenha);
+            String senha = novaSenha.getText().toString();
+
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                int deuCerto = 0;
+                try {
+                    deuCerto = globalDBHelper.updateUsuarios(getApplicationContext(), emailUser, senha);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (deuCerto == 1) {
+                    gerarAlertDeCerteza("Sua senha foi alterada!", "Sua sennha foi atualizada com sucesso!");
+                } else {
+                    gerarAlertDeCerteza("Senha não alterada!", "Ocorreu algum erro e sua senha não foi modificada, verifique sua conexão com a Internet e tente novamente!");
+
+                }
+
+            }
+        };
+        builder.setPositiveButton("Ok", btnOk);
+        builder.create().show();
     }
 
+
+
+    public void gerarAlertDialogExcluir(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
+
+            SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+            String emailUser = sp.getString("emailLogado",null);
+
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                int deuCerto = 0;
+                try {
+                    deuCerto = globalDBHelper.deleteUsuarios(getApplicationContext(), emailUser);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (deuCerto == 1) {
+                    gerarAlertDialogSair("Sua conta foi excluia!", "Sua excluida com sucesso!");
+
+                } else {
+                    gerarAlertDialogSair("Conta não deletada!", "Ocorreu algum erro e sua conta não foi excluida, verifique sua conexão com a Internet e tente novamente!");
+
+                }
+
+            }
+        };
+        builder.setPositiveButton("Ok", btnOk);
+        builder.create().show();
+    }
+
+
+
+
+
+
+
+    public void gerarAlertDialogSair(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        final Context c = this;
+
+        DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                Intent intent = new Intent(c, LoginActivity.class);
+                SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.remove("emailLogado");
+                editor.apply();
+
+                startActivity(intent);
+            }
+        };
+        builder.setPositiveButton("Ok", btnOk);
+        builder.create().show();
+    }
+
+
+    public void gerarAlertDeCerteza(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
+
+            SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+            String emailUser = sp.getString("emailLogado",null);
+
+            EditText novaSenha = (EditText) findViewById(R.id.attSenha);
+            String senha = novaSenha.getText().toString();
+
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+            }
+        };
+        builder.setPositiveButton("Ok", btnOk);
+        builder.create().show();
+    }
+
+
+
+    public void attSenha (View v) throws IOException {
+
+        gerarAlertDialogAtt("Tem certeza?", "Certeza meeeesmo?");
+
+    }
+
+
+
+    public void excluirConta (View v){
+        gerarAlertDialogExcluir("Tem certeza?", "Certeza meeeesmo?");
+
+    }
 
 }

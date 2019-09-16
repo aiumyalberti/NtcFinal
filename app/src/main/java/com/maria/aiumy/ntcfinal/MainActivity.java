@@ -24,6 +24,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> listaGrupos = new ArrayList<String>();
     ArrayList<String> listaCodGrupos = new ArrayList<String>();
 
+    String emailUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,6 +52,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        emailUser = sp.getString("emailLogado",null);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -59,6 +65,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        setUserView();
+
         ListView listView = (ListView) findViewById(R.id.listagrupos);
         listView.setBackgroundColor(Color.WHITE);
         try {
@@ -155,12 +164,17 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void setUserView(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.userEmailNav);
+        email.setText(emailUser);
+    }
+
 
     public void arrayGrupos() throws IOException, JSONException //
     {
-        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
-        String emailUser = sp.getString("emailLogado",null);
-        JSONArray jsonGrupos = globalDBHelper.usuarioParticipa(getApplicationContext(), emailUser);
+         JSONArray jsonGrupos = globalDBHelper.usuarioParticipa(getApplicationContext(), emailUser);
 
 
         for (int i = 0; i < jsonGrupos.length(); i++) {

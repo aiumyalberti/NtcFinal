@@ -13,10 +13,8 @@ import org.json.JSONException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 
 public class GlobalDBHelper {
 
@@ -131,17 +129,38 @@ public class GlobalDBHelper {
         }
     }
 
-     public void updateUsuarios(Context context, String email) throws IOException {
+     public int updateUsuarios(Context context, String email, String senha) throws IOException {
         if (!checkNetworkConnection(context)) {
-            return;
+            return 0;
         }
         checkThreadPolicy();
-        URL url = new URL(URL_GLOBAL_DB + "ws_update/ws_update.php?email="+email);
+        URL url = new URL(URL_GLOBAL_DB + "ws_update/ws_update_usuarios.php?email="+email+"&senha="+senha);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String response = bufferedReader.readLine();
+         if (response.equals("false")) {
+             Toast.makeText(context, "Erro no BD Global!", Toast.LENGTH_LONG).show();
+             return 0;
+         } else {
+             return 1;
+         }
+     }
+
+
+    public int deleteUsuarios(Context context, String email) throws IOException {
+        if (!checkNetworkConnection(context)) {
+            return 0;
+        }
+        checkThreadPolicy();
+        URL url = new URL(URL_GLOBAL_DB + "ws_delete/ws_delete_usuarios.php?email="+email);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String response = bufferedReader.readLine();
         if (response.equals("false")) {
             Toast.makeText(context, "Erro no BD Global!", Toast.LENGTH_LONG).show();
+            return 0;
+        } else {
+            return 1;
         }
     }
 
