@@ -129,6 +129,7 @@ public class GlobalDBHelper {
         }
     }
 
+
      public int updateUsuarios(Context context, String email, String senha) throws IOException {
         if (!checkNetworkConnection(context)) {
             return 0;
@@ -163,6 +164,25 @@ public class GlobalDBHelper {
             return 1;
         }
     }
+
+    public JSONArray readGruposCriados(Context context, String email) throws JSONException, IOException  {
+        if (!checkNetworkConnection(context)) {
+            return null;
+        }
+        checkThreadPolicy();
+        URL url = new URL(URL_GLOBAL_DB + "ws_read/ws_read_usuarios_dono.php?email="+email);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        StringBuilder sb = new StringBuilder();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String json;
+        while ((json = bufferedReader.readLine()) != null) {
+            sb.append(json + "\n");
+        }
+        JSONArray jsonArray = new JSONArray(sb.toString().trim());
+        return jsonArray;
+
+    }
+
 
     public JSONArray selectAllFromUsuarios(Context context) throws JSONException, IOException {
         if (!checkNetworkConnection(context)) {

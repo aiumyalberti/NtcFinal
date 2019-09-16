@@ -15,9 +15,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 public class MygroupsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    String emailUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,10 @@ public class MygroupsActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        emailUser = sp.getString("emailLogado",null);
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -115,4 +128,19 @@ public class MygroupsActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    public void buildListGrops() throws JSONException, IOException {
+
+//        JSONArray
+
+    }
+
+    public void setUserView(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.userEmailNav);
+        email.setText(emailUser);
+    }
+
 }

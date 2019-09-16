@@ -190,8 +190,6 @@ public class PerfilActivity extends AppCompatActivity
 
 
 
-
-
     public void gerarAlertDialogSair(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
