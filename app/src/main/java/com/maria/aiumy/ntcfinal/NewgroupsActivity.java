@@ -115,9 +115,6 @@ public class NewgroupsActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, PerfilActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_notification) {
-            Intent intent = new Intent(this, PostagemActivity.class);
-            startActivity(intent);
         } else if (id == R.id.nav_groups) {
             Intent intent = new Intent(this, MygroupsActivity.class);
             startActivity(intent);

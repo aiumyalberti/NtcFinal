@@ -18,7 +18,7 @@ import java.net.URL;
 
 public class GlobalDBHelper {
 
-    private static String URL_GLOBAL_DB = "http://192.168.43.200/webService/";
+    private static String URL_GLOBAL_DB = "http://10.21.80.175/webService/";
 
     public int insertIntoUsuarios(Context context, String email, String senha) throws IOException {
         if (!checkNetworkConnection(context)) {
@@ -129,8 +129,7 @@ public class GlobalDBHelper {
         }
     }
 
-
-     public int updateUsuarios(Context context, String email, String senha) throws IOException {
+    public int updateUsuarios(Context context, String email, String senha) throws IOException {
         if (!checkNetworkConnection(context)) {
             return 0;
         }
@@ -146,7 +145,6 @@ public class GlobalDBHelper {
              return 1;
          }
      }
-
 
     public int deleteUsuarios(Context context, String email) throws IOException {
         if (!checkNetworkConnection(context)) {
@@ -185,7 +183,6 @@ public class GlobalDBHelper {
 
     }
 
-
     public JSONArray selectAllFromUsuarios(Context context) throws JSONException, IOException {
         if (!checkNetworkConnection(context)) {
             return null;
@@ -202,6 +199,7 @@ public class GlobalDBHelper {
         JSONArray jsonArray = new JSONArray(sb.toString().trim());
         return jsonArray;
     }
+
     public JSONArray selectAllFromGrupos(Context context) throws JSONException, IOException {
         if (!checkNetworkConnection(context)) {
             return null;
@@ -269,6 +267,7 @@ public class GlobalDBHelper {
         JSONArray jsonArray = new JSONArray(sb.toString().trim());
         return jsonArray;
     }
+
     public JSONArray selectPostGrupo(Context context, String cod) throws JSONException, IOException {
         if (!checkNetworkConnection(context)) {
             return null;
@@ -287,6 +286,7 @@ public class GlobalDBHelper {
     }
 
     public String selectSenhaGrupo(Context context, String codGrupo) throws JSONException, IOException {
+
         if (!checkNetworkConnection(context)) {
             return null;
         }
