@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -39,7 +40,7 @@ public class NewgroupsActivity extends AppCompatActivity
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     private ArrayList<String> listaNovos = new ArrayList<String>();
     private ArrayList<String> listaCodigosGrupos = new ArrayList<String>();
-
+    String emailUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class NewgroupsActivity extends AppCompatActivity
         setContentView(R.layout.activity_newgroups);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        emailUser = sp.getString("emailLogado",null);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,6 +58,7 @@ public class NewgroupsActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        setUserView();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         try {
@@ -136,6 +140,14 @@ public class NewgroupsActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void setUserView(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.userEmailNav);
+        email.setText(emailUser);
+    }
+
 
     public void arrayNovos() throws IOException, JSONException //
     {

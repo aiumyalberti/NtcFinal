@@ -15,17 +15,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import bdcontroler.GlobalDBHelper;
 
 public class MygroupsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener  {
 
     String emailUser;
+    String codGrupo;
+    GlobalDBHelper bdHelper = new GlobalDBHelper();
+    ArrayList<String> myGroups = new ArrayList<String>();
+    ArrayList<String> myCods = new ArrayList<String>();
 
 
     @Override
@@ -39,8 +50,7 @@ public class MygroupsActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Só fazer batata
             }
         });
 
@@ -52,10 +62,20 @@ public class MygroupsActivity extends AppCompatActivity
 
         SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
         emailUser = sp.getString("emailLogado",null);
+        setUserView();
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        try {
+            arrayGrupos();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -130,9 +150,40 @@ public class MygroupsActivity extends AppCompatActivity
     }
 
 
-    public void buildListGrops() throws JSONException, IOException {
+    public void arrayGrupos() throws JSONException, IOException {
 
-//        JSONArray
+        JSONArray jsonGroups = bdHelper.readGruposCriados(getApplicationContext(), emailUser);
+        JSONArray jsonNovos = bdHelper.selectAllFromGrupos(getApplicationContext());
+
+        for (int i=0; i<jsonGroups.length(); i++){
+            JSONObject groupObject = jsonGroups.getJSONObject(i);
+            JSONObject grupoObject = jsonNovos.getJSONObject(i);
+            String groupName = groupObject.getString("nome");
+            if (grupoObject.getString("nome").contains(groupName)) {
+                codGrupo = grupoObject.getString("cod");
+            }
+            myCods.add(codGrupo);
+            myGroups.add(groupName);
+        }
+
+        ListView newList = (ListView) findViewById(R.id.novos_grupos_List);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myGroups);
+        newList.setOnItemClickListener(this);
+        newList.setAdapter(adapter);
+
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String nomeGrupo =  myGroups.get(position);
+        String codGrupo = myCods.get(position);
+        Bundle b = new Bundle();
+        Intent intent = new Intent(this, GrupoActivity.class);
+        b.putString("nomeGrupo", nomeGrupo);
+        b.putString("codGrupo", codGrupo);
+        intent.putExtras(b);
+        startActivity(intent);
 
     }
 

@@ -54,24 +54,35 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 public class PostagemActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
     String codGrupo;
     ArrayList<String> listaPostagens = new ArrayList<String>();
     String data = null;
+    String emailUser;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postagem);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        emailUser = sp.getString("emailLogado",null);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        setUserView();
 
 
         Date date = new Date();
@@ -157,6 +168,8 @@ public class PostagemActivity extends AppCompatActivity
 
 
 
+
+
     public void gerarAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
@@ -203,5 +216,12 @@ public class PostagemActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setUserView(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.userEmailNav);
+        email.setText(emailUser);
     }
 }

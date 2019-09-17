@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -66,7 +68,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setUserView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setUserView();
+        }
 
         ListView listView = (ListView) findViewById(R.id.listagrupos);
         listView.setBackgroundColor(Color.WHITE);
@@ -164,11 +168,20 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void setUserView(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
+
+        ImageView img = (ImageView) header.findViewById(R.id.userImg);
+        img.setImageResource(R.drawable.ntc_icon);
+        img.setMaxWidth(150);
+        img.setMaxHeight(150);
+
+
         TextView email = (TextView) header.findViewById(R.id.userEmailNav);
         email.setText(emailUser);
+
     }
 
 

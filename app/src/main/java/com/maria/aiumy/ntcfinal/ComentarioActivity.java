@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -38,6 +39,7 @@ public class ComentarioActivity extends AppCompatActivity
     String postCod;
 
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
+    String emailUser;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -50,11 +52,16 @@ public class ComentarioActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        emailUser = sp.getString("emailLogado",null);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        setUserView();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -194,6 +201,14 @@ public class ComentarioActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void setUserView(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.userEmailNav);
+        email.setText(emailUser);
     }
 
 }

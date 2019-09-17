@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.IOException;
 
@@ -26,6 +27,7 @@ import bdcontroler.GlobalDBHelper;
 public class PerfilActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private GlobalDBHelper globalDBHelper = new GlobalDBHelper();
+    String emailUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,18 @@ public class PerfilActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        SharedPreferences sp = getSharedPreferences("dadosCompartilhados", Context.MODE_PRIVATE);
+        emailUser = sp.getString("emailLogado",null);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        setUserView();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -250,5 +258,13 @@ public class PerfilActivity extends AppCompatActivity
         gerarAlertDialogExcluir("Tem certeza?", "Certeza meeeesmo?");
 
     }
+
+    public void setUserView(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView email = (TextView) header.findViewById(R.id.userEmailNav);
+        email.setText(emailUser);
+    }
+
 
 }
