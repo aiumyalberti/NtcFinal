@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -57,6 +58,8 @@ public class CriargrupoActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        setUserView();
 
 //
     }
@@ -157,6 +160,7 @@ public class CriargrupoActivity extends AppCompatActivity
         int deuCerto = globalDBHelper.insertGrupo(getApplicationContext(), nome, senha, tema_tema, emailUser);
         if (deuCerto == 1) {
             gerarAlertDialog("Grupo criado!", "Grupo criado com sucesso!");
+
         } else {
             gerarAlertDialog("Erro ao criar grupo", "Ocorreu um erro ao criar o grupo, por favor tente novamente :)");
 
@@ -171,7 +175,7 @@ public class CriargrupoActivity extends AppCompatActivity
         DialogInterface.OnClickListener btnOk = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), NewgroupsActivity.class);
                 startActivity(intent);
             }
         };
@@ -182,7 +186,15 @@ public class CriargrupoActivity extends AppCompatActivity
     public void setUserView(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
+
+        ImageView img = (ImageView) header.findViewById(R.id.userImg);
+        img.setImageResource(R.drawable.ntc_icon);
+        img.setMaxWidth(150);
+        img.setMaxHeight(150);
+
+
         TextView email = (TextView) header.findViewById(R.id.userEmailNav);
         email.setText(emailUser);
+
     }
 }
