@@ -6,12 +6,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_main"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Main" />
+            android:icon="@drawable/home"
+            android:title="Inicial" />
 
         <item
             android:id="@+id/nav_groups"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/group"
             android:title="Meus grupos" />
         <item
             android:id="@+id/nav_create"
@@ -19,7 +19,7 @@
             android:title="Criar grupo" />
         <item
             android:id="@+id/nav_new"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/lupa"
             android:title="Novos grupos" />
 
     </group>
@@ -28,11 +28,11 @@
         <menu>
             <item
                 android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/editprofile"
                 android:title="Perfil" />
             <item
                 android:id="@+id/nav_exit"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/sair"
                 android:title="Sair" />
 
         </menu>
