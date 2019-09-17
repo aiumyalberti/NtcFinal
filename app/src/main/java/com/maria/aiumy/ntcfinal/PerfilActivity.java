@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -262,6 +263,13 @@ public class PerfilActivity extends AppCompatActivity
     public void setUserView(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
+
+
+        ImageView img = (ImageView) header.findViewById(R.id.userImg);
+        img.setImageResource(R.drawable.ntc_icon);
+        img.setMaxWidth(150);
+        img.setMaxHeight(150);
+
         TextView email = (TextView) header.findViewById(R.id.userEmailNav);
         email.setText(emailUser);
     }

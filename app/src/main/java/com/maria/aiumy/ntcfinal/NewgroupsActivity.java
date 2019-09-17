@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -144,6 +145,13 @@ public class NewgroupsActivity extends AppCompatActivity
     public void setUserView(){
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
+
+
+        ImageView img = (ImageView) header.findViewById(R.id.userImg);
+        img.setImageResource(R.drawable.ntc_icon);
+        img.setMaxWidth(150);
+        img.setMaxHeight(150);
+
         TextView email = (TextView) header.findViewById(R.id.userEmailNav);
         email.setText(emailUser);
     }
